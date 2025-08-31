@@ -2,11 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ARCHMAP — Test Page</title>
+  <title>ARCHMAP — Карта архитекторов</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    #map { height: 100vh; }
+    .leaflet-popup-content { font-size: 14px; }
+  </style>
 </head>
 <body>
-  <h1>✅ GitHub Pages работает!</h1>
-  <p>Если ты видишь этот текст, значит сайт правильно подгружается.</p>
-  <p>Теперь можно возвращать карту 🌍</p>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Создаём карту
+    var map = L.map('map').setView([41.9028, 12.4964], 6); // Центр на Италии (Рим)
+
+    // Подгружаем слой карты (бесплатный от OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Пример точек (архивы и проекты)
+    var places = [
+      {
+        coords: [41.9028, 12.4964],
+        name: "Рим — Центральный архив архитектуры",
+        info: "Документы по архитектору Марчелло Пьячентини. <br><a href='https://www.archivi.beniculturali.it/' target='_blank'>Сайт архива</a>"
+      },
+      {
+        coords: [45.4642, 9.19],
+        name: "Милан — Проект жилого комплекса",
+        info: "Проект Джо Понти (XX век). <br>Хранится в Politecnico di Milano."
+      },
+      {
+        coords: [40.8518, 14.2681],
+        name: "Неаполь — Архив университета",
+        info: "Чертежи и письма Карло Пикколини."
+      }
+    ];
+
+    // Добавляем точки на карту
+    places.forEach(function(place) {
+      L.marker(place.coords).addTo(map)
+        .bindPopup("<b>" + place.name + "</b><br>" + place.info);
+    });
+  </script>
 </body>
 </html>
